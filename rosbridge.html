@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8" />
+      <script src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/roslibjs/0.20.0/roslib.js"></script>
+      <script>
+         // Connecting to ROS
+         // -----------------
+         var ros = new ROSLIB.Ros();
+         
+         // If there is an error on the backend, an 'error' emit will be emitted.
+         ros.on('error', function(error) {
+           document.getElementById('connecting').style.display = 'none';
+           document.getElementById('connected').style.display = 'none';
+           document.getElementById('closed').style.display = 'none';
+           document.getElementById('error').style.display = 'inline';
+           console.log(error);
+         });
+         
+         // Find out exactly when we made a connection.
+         ros.on('connection', function() {
+           console.log('Connection made!');
+           document.getElementById('connecting').style.display = 'none';
+           document.getElementById('error').style.display = 'none';
+           document.getElementById('closed').style.display = 'none';
+           document.getElementById('connected').style.display = 'inline';
+         });
+         
+         ros.on('close', function() {
+           console.log('Connection closed.');
+           document.getElementById('connecting').style.display = 'none';
+           document.getElementById('connected').style.display = 'none';
+           document.getElementById('closed').style.display = 'inline';
+         });
+         
+         // Create a connection to the rosbridge WebSocket server.
+         ros.connect('ws://localhost:9090');
+         
+         //Subscribing to a Topic
+         //----------------------
+         
+         // Like when publishing a topic, we first create a Topic object with details of the topic's name
+         // and message type. Note that we can call publish or subscribe on the same topic object.
+         var listener = new ROSLIB.Topic({
+           ros: ros,
+           name: '/tf',
+           messageType: 'tf2_msgs/TFMessage'
+         });
+         
+         var i = 1;
+         var optitrackTransform = "";
+         function subscribe() {
+          listener.subscribe(function(message) {
+         message.transforms.forEach(topic => {
+         if (topic.child_frame_id == "Part") {
+         optitrackTransform = topic;
+         document.getElementById("translation_x").innerHTML = optitrackTransform.transform.translation.x;
+         document.getElementById("translation_y").innerHTML = optitrackTransform.transform.translation.y;
+         document.getElementById("translation_z").innerHTML = optitrackTransform.transform.translation.z;
+         document.getElementById("rotation_x").innerHTML = optitrackTransform.transform.rotation.x;
+         document.getElementById("rotation_y").innerHTML = optitrackTransform.transform.rotation.y;
+         document.getElementById("rotation_z").innerHTML = optitrackTransform.transform.rotation.z;
+         document.getElementById("rotation_w").innerHTML = optitrackTransform.transform.rotation.w;
+         }		
+         });
+           });
+         }
+         function unsubscribe() {
+         listener.unsubscribe();
+         }
+      </script>
+   </head>
+   <body>
+      <div id="statusIndicator">
+         <p id="connecting">
+            Connecting to rosbridge...
+         </p>
+         <p id="connected" style="color:#00D600; display:none">
+            Connected
+         </p>
+         <p id="error" style="color:#FF0000; display:none">
+            Error in the backend!
+         </p>
+         <p id="closed" style="display:none">
+            Connection closed.
+         </p>
+         <p></p>
+         <p>translation x: <span id="translation_x"></span></p>
+         <p>translation y: <span id="translation_y"></span></p>
+         <p>translation z: <span id="translation_z"></span></p>
+         <p>rotation x: <span id="rotation_x"></span></p>
+         <p>rotation y: <span id="rotation_y"></span></p>
+         <p>rotation z: <span id="rotation_z"></span></p>
+         <p>rotation w: <span id="rotation_w"></span></p>
+         <input type="button" onclick="subscribe()" value="Subscribe"></input>
+         <input type="button" onclick="unsubscribe()" value="Unsubscribe"></input>
+      </div>
+   </body>
+</html>
