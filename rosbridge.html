@@ -1,10 +1,38 @@
+
+
 <!DOCTYPE html>
 <html>
    <head>
       <meta charset="utf-8" />
       <script src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/roslibjs/0.20.0/roslib.js"></script>
-      <script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r79/three.min.js"></script>
+   </head>
+   <body>
+      <div id="statusIndicator">
+         <p id="connecting">
+            Connecting to rosbridge...
+         </p>
+         <p id="connected" style="color:#00D600; display:none">
+            Connected
+         </p>
+         <p id="error" style="color:#FF0000; display:none">
+            Error in the backend!
+         </p>
+         <p id="closed" style="display:none">
+            Connection closed.
+         </p>
+         <p></p>
+         <p>translation x: <span id="translation_x"></span></p>
+         <p>translation y: <span id="translation_y"></span></p>
+         <p>translation z: <span id="translation_z"></span></p>
+	 <p>rotation x: <span id="rotation_x"></span></p>
+         <p>rotation y: <span id="rotation_y"></span></p>
+         <p>rotation z: <span id="rotation_z"></span></p>
+	 <p>rotation w: <span id="rotation_w"></span></p>
+	 <input type="button" onclick="subscribe()" value="Subscribe"></input>
+	 <input type="button" onclick="unsubscribe()" value="Unsubscribe"></input>
+	<script>
          // Connecting to ROS
          // -----------------
          var ros = new ROSLIB.Ros();
@@ -50,51 +78,72 @@
          
          var i = 1;
          var optitrackTransform = "";
+	 var x;
+	 var y;
+	 var z;
+	 var w;
+	 var trans_x;
+	 var trans_y;
+	 var trans_z;
          function subscribe() {
           listener.subscribe(function(message) {
          message.transforms.forEach(topic => {
          if (topic.child_frame_id == "Part") {
-         optitrackTransform = topic;
-         document.getElementById("translation_x").innerHTML = optitrackTransform.transform.translation.x;
-         document.getElementById("translation_y").innerHTML = optitrackTransform.transform.translation.y;
-         document.getElementById("translation_z").innerHTML = optitrackTransform.transform.translation.z;
-         document.getElementById("rotation_x").innerHTML = optitrackTransform.transform.rotation.x;
-         document.getElementById("rotation_y").innerHTML = optitrackTransform.transform.rotation.y;
-         document.getElementById("rotation_z").innerHTML = optitrackTransform.transform.rotation.z;
-         document.getElementById("rotation_w").innerHTML = optitrackTransform.transform.rotation.w;
+		 optitrackTransform = topic;
+		 document.getElementById("translation_x").innerHTML = optitrackTransform.transform.translation.x;
+		 document.getElementById("translation_y").innerHTML = optitrackTransform.transform.translation.y;
+		 document.getElementById("translation_z").innerHTML = optitrackTransform.transform.translation.z;
+		 document.getElementById("rotation_x").innerHTML = optitrackTransform.transform.rotation.x;
+		 document.getElementById("rotation_y").innerHTML = optitrackTransform.transform.rotation.y;
+		 document.getElementById("rotation_z").innerHTML = optitrackTransform.transform.rotation.z;
+		 document.getElementById("rotation_w").innerHTML = optitrackTransform.transform.rotation.w;
+		 x = optitrackTransform.transform.rotation.x;
+		 y = optitrackTransform.transform.rotation.y;
+		 z = optitrackTransform.transform.rotation.z;
+		 w = optitrackTransform.transform.rotation.w;
+		 trans_x = optitrackTransform.transform.translation.x;
+		 trans_y = optitrackTransform.transform.translation.y;
+		 trans_z = optitrackTransform.transform.translation.z;
          }		
          });
            });
          }
-         function unsubscribe() {
-         listener.unsubscribe();
-         }
+	 function unsubscribe() {
+	   listener.unsubscribe();
+	 }
+	var scene = new THREE.Scene();
+	var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+
+	var renderer = new THREE.WebGLRenderer();
+	renderer.setSize( window.innerWidth, window.innerHeight );
+	document.body.appendChild( renderer.domElement );
+
+	var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+	var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+	var cube = new THREE.Mesh( geometry, material );
+	scene.add( cube );
+
+	camera.position.z = 5;
+
+	var animate = function () {
+		requestAnimationFrame( animate );
+
+		cube.quaternion.x = x;
+		cube.quaternion.y = y;
+		cube.quaternion.z = z;
+		cube.quaternion.w = w;
+
+		cube.position.x = trans_x;
+		cube.position.y = trans_y;
+		cube.position.z = trans_z;
+
+		renderer.render(scene, camera);
+	};
+
+	animate();
       </script>
-   </head>
-   <body>
-      <div id="statusIndicator">
-         <p id="connecting">
-            Connecting to rosbridge...
-         </p>
-         <p id="connected" style="color:#00D600; display:none">
-            Connected
-         </p>
-         <p id="error" style="color:#FF0000; display:none">
-            Error in the backend!
-         </p>
-         <p id="closed" style="display:none">
-            Connection closed.
-         </p>
-         <p></p>
-         <p>translation x: <span id="translation_x"></span></p>
-         <p>translation y: <span id="translation_y"></span></p>
-         <p>translation z: <span id="translation_z"></span></p>
-         <p>rotation x: <span id="rotation_x"></span></p>
-         <p>rotation y: <span id="rotation_y"></span></p>
-         <p>rotation z: <span id="rotation_z"></span></p>
-         <p>rotation w: <span id="rotation_w"></span></p>
-         <input type="button" onclick="subscribe()" value="Subscribe"></input>
-         <input type="button" onclick="unsubscribe()" value="Unsubscribe"></input>
       </div>
    </body>
 </html>
+
+
