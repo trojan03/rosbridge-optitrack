@@ -9,47 +9,54 @@
       <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+      
    </head>
    <body>
-      <ul class="nav nav-tabs" role="tablist">
-         <li class="nav-item">
-            <a class="nav-link active" href="#backend" role="tab" data-toggle="tab">Backend</a>
-         </li>
-         <li class="nav-item">
-            <a class="nav-link" href="#3d" role="tab" data-toggle="tab">3D</a>
-         </li>
-      </ul>
-      <!-- Tab panes -->
-      <div class="tab-content">
-         <div role="tabpanel" class="tab-pane active show fade" id="backend">
-            <div id="statusIndicator">
-               <p id="connecting">
-                  Connecting to rosbridge...
-               </p>
-               <p id="connected" style="color:#00D600; display:none">
-                  Connected
-               </p>
-               <p id="error" style="color:#FF0000; display:none">
-                  Error in the backend!
-               </p>
-               <p id="closed" style="display:none">
-                  Connection closed.
-               </p>
-               <p></p>
-               <p>translation x: <span id="translation_x"></span></p>
-               <p>translation y: <span id="translation_y"></span></p>
-               <p>translation z: <span id="translation_z"></span></p>
-               <p>rotation x: <span id="rotation_x"></span></p>
-               <p>rotation y: <span id="rotation_y"></span></p>
-               <p>rotation z: <span id="rotation_z"></span></p>
-               <p>rotation w: <span id="rotation_w"></span></p>
-               <input type="button" onclick="subscribe()" value="Subscribe"></input>
-               <input type="button" onclick="unsubscribe()" value="Unsubscribe"></input>
+      <div class="container" id="main">
+         <div class="row">
+            <div class="col p-5">
+               <ul class="nav nav-tabs" role="tablist">
+                  <li class="nav-item">
+                     <a class="nav-link active" href="#backend" role="tab" data-toggle="tab">Backend</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" href="#3d" role="tab" data-toggle="tab">3D</a>
+                  </li>
+               </ul>
+               <!-- Tab panes -->
+               <div class="tab-content">
+                  <div role="tabpanel" class="tab-pane active show fade" id="backend">
+                     <div id="statusIndicator">
+                        <p id="connecting">
+                           Connecting to rosbridge...
+                        </p>
+                        <p id="connected" style="color:#00D600; display:none">
+                           Connected
+                        </p>
+                        <p id="error" style="color:#FF0000; display:none">
+                           Error in the backend!
+                        </p>
+                        <p id="closed" style="display:none">
+                           Connection closed.
+                        </p>
+                        <p></p>
+                        <p>translation x: <span id="translation_x"></span></p>
+                        <p>translation y: <span id="translation_y"></span></p>
+                        <p>translation z: <span id="translation_z"></span></p>
+                        <p>rotation x: <span id="rotation_x"></span></p>
+                        <p>rotation y: <span id="rotation_y"></span></p>
+                        <p>rotation z: <span id="rotation_z"></span></p>
+                        <p>rotation w: <span id="rotation_w"></span></p>
+                        <input type="button" onclick="subscribe()" value="Subscribe"></input>
+                        <input type="button" onclick="unsubscribe()" value="Unsubscribe"></input>
+                     </div>
+                  </div>
+                  <div role="tabpanel" class="tab-pane fade" id="3d"></div>
+               </div>
             </div>
          </div>
-         <div role="tabpanel" class="tab-pane fade" id="3d"></div>
       </div>
-      <script src="rosbridge_example.js"></script>
+<script src="rosbridge_example.js"></script> 
    </body>
 </html>
 
