@@ -78,14 +78,25 @@ function subscribe() {
 function unsubscribe() {
     listener.unsubscribe();
 }
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
+// main scene with camera
+var scene = new THREE.Scene();
+var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
+camera.position.x = 0;
+camera.position.y = 5;
+camera.position.z = 10;
+
+// put everything into the main div
 var renderer = new THREE.WebGLRenderer();
 container = document.getElementById('main');
 renderer.setSize($(container).width(), $(container).height());
 document.getElementById("3d").appendChild(renderer.domElement);
 
+// rotate scene with mouse
+controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+
+// create a cube for the optitrack object
 var geometry = new THREE.BoxGeometry(1, 1, 1);
 var material = new THREE.MeshBasicMaterial({
     color: 0x00ff00
@@ -93,7 +104,14 @@ var material = new THREE.MeshBasicMaterial({
 var cube = new THREE.Mesh(geometry, material);
 scene.add(cube);
 
-camera.position.z = 5;
+// create a grid
+var size = 10;
+var divisions = 10;
+var gridHelper = new THREE.GridHelper(size, divisions);
+scene.add(gridHelper);
+
+
+
 
 var animate = function() {
     requestAnimationFrame(animate);
