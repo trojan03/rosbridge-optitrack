@@ -1,0 +1,23 @@
+{
+  "name": "rosbridge-optitrack",
+  "authors": [
+    "Alymbek Sadybakasov"
+  ],
+  "description": "Simple browser GUI demonstrating how to connect to rosbridge and read Optitrack data.",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "4.0.0",
+    "jquery": "^3.3.1",
+    "roslib": "^0.20.0",
+    "three.js": "threejs#*"
+  }
+}

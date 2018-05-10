@@ -2,15 +2,13 @@
 <html>
    <head>
       <meta charset="utf-8" />
-      <script src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/roslibjs/0.20.0/roslib.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r79/three.min.js"></script>
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+      <script src="./bower_components/eventemitter2/lib/eventemitter2.js"></script>
+      <script src="./bower_components/roslib/build/roslib.js"></script>
+      <script src="./bower_components/three.js/build/three.min.js"></script>
+      <script src="./bower_components/jquery/dist/jquery.slim.min.js"></script>
+      <script src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
       <script src="js/OrbitControls.js"></script>
-      
+      <link href='./bower_components/bootstrap/dist/css/bootstrap.css' rel='stylesheet' type='text/css'/>
    </head>
    <body>
       <div class="container" id="main">
@@ -48,8 +46,8 @@
                         <p>rotation y: <span id="rotation_y"></span></p>
                         <p>rotation z: <span id="rotation_z"></span></p>
                         <p>rotation w: <span id="rotation_w"></span></p>
-                        <input type="button" onclick="subscribe()" value="Subscribe"></input>
-                        <input type="button" onclick="unsubscribe()" value="Unsubscribe"></input>
+                        <button class="btn btn-primary" onclick="subscribe()">Subscribe</button>
+                        <button class="btn btn-danger" onclick="unsubscribe()">Unsubscribe</button>
                      </div>
                   </div>
                   <div role="tabpanel" class="tab-pane fade" id="3d"></div>
@@ -57,8 +55,6 @@
             </div>
          </div>
       </div>
-<script src="rosbridge_example.js"></script> 
+<script src="rosbridge_example.js"></script>
    </body>
 </html>
-
-

@@ -28,7 +28,8 @@ ros.on('close', function() {
 });
 
 // Create a connection to the rosbridge WebSocket server.
-ros.connect('ws://localhost:9090');
+var serverUrl = 'ws://192.168.2.2:9090'
+ros.connect(serverUrl);
 
 //Subscribing to a Topic
 //----------------------
